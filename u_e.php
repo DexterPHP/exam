@@ -44,7 +44,10 @@
                 <td>'.$user->owner_desc.'</td>
                 <td>'.GetRoleTitle($user->owner_type).'</td>
                 <td>'.GetDepartTitle($user->depart_id).'</td>
-                <td><a href="view_user.php?id='.$user->id.'">Control</a></td>
+                <td>
+                <a href="view_user.php?id='.$user->id.'">Edit</a> &nbsp; -  &nbsp;
+                <a onClick="javascript: return confirm(\'Please confirm deletion\');" href="./delete_user.php?id='.$user->id.'"><i class="material-icons" style="color:#BF0A30">Delete</i></a>
+                </td>
             </tr>';
             }
             ?>
@@ -52,7 +55,7 @@
         </tbody>
         <tfoot>
             <tr>
-               <th>user id</th>
+                <th>user id</th>
                 <th>userName</th>
                 <th>Info</th>
                 <th>Rols</th>

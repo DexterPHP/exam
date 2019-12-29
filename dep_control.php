@@ -10,7 +10,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Users</li>
+              <li class="breadcrumb-item active">department</li>
             </ol>
           </div>
         </div>
@@ -22,29 +22,27 @@
  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" />
     <!-- Main content -->
     <section class="content">
-    <table id="example" class="table table-striped table-bordered text-center" width="90%">
+    <table id="example" class="table table-striped table-bordered text-center" width="99%">
         <thead>
             <tr>
-                <th>user id</th>
-                <th>userName</th>
-                <th>Info</th>
-                <th>Rols</th>
-                <th>Department</th>
+                <th>department id</th>
+                <th>department Title</th>
                 <th>Control</th>
             </tr>
         </thead>
         <tbody>
             <?php
-            $all_users = $DexterC->query("select * from owners order by owner_name asc") or die('Cool');
-            while($user = $all_users->fetch_object()){
+            $all_dep = $DexterC->query("select * from department order by depart_title asc") or die('Cool');
+            while($dep = $all_dep->fetch_object()){
                echo'
             <tr>
-                <td>'.$user->id.'</td>
-                <td>'.$user->owner_name.'</td>
-                <td>'.$user->owner_desc.'</td>
-                <td>'.GetRoleTitle($user->owner_type).'</td>
-                <td>'.GetDepartTitle($user->depart_id).'</td>
-                <td><a href="view_user.php?id='.$user->id.'">Control</a></td>
+                <td>'.$dep->id.'</td>
+                <td>'.$dep->depart_title.'</td>
+
+                <td>
+                    <a href="edit_depart.php?id='.$dep->id.'">Edit </a> &nbsp; - &nbsp;
+                    <a onclick="javascript: return confirm(\'Please confirm deletion\');" href="./delete_depa.php?id='.$dep->id.'"><i class="material-icons" style="color:#BF0A30">Delete</i></a>
+                </td>
             </tr>';
             }
             ?>
@@ -52,11 +50,8 @@
         </tbody>
         <tfoot>
             <tr>
-               <th>user id</th>
-                <th>userName</th>
-                <th>Info</th>
-                <th>Rols</th>
-                <th>Department</th>
+                <th>department id</th>
+                <th>department Title</th>
                 <th>Control</th>
             </tr>
         </tfoot>

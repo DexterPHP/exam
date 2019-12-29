@@ -73,20 +73,20 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
-                Slider
+                Department
                 <i class="fas fa-angle-left right"></i>
 
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="./add_slider.php" class="nav-link">
+                <a href="./add_department.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Add New Slider</p>
+                  <p>Add New department</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./edit_slider.php" class="nav-link">
+                <a href="./edit_department.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Edit - Delete</p>
                 </a>
@@ -98,20 +98,20 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
-                Prodaucts
+                Categories
                 <i class="fas fa-angle-left right"></i>
 
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="./add_product.php" class="nav-link">
+                <a href="./add_categorie.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Add New </p>
+                  <p>Add categorie </p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./edit_product.php" class="nav-link">
+                <a href="./edit_categorie.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Edit - Delete</p>
                 </a>
