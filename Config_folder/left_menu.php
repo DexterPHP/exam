@@ -40,24 +40,31 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
-                Main Setting
+                users
                 <i class="fas fa-angle-left right"></i>
 
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="./Setting.php" class="nav-link">
+                <a href="./add_user.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Setting</p>
+                  <p>Add user</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="./Category.php" class="nav-link">
+                <a href="./user_search.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Category [ add - update ]</p>
+                  <p>Search</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="./user_control.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Edit - Delete</p>
+                </a>
+              </li>
+
             </ul>
             </li>
 

@@ -99,15 +99,27 @@
         $let_us_insert = $DexterC->query('insert into documents
         (`title`, `owner`, `commnt`, `cater_id`, `tags`, `depart`, `file_link`, `doc_type`, `desc_text`) Values
         ("'.$doc_titl.'",'.$doc_ownr.',"'.$doc_comm.'",'.$doc_cate.',"'.$doc_tags.'",'.$doc_depa.',"'.htmlspecialchars($All_file).'","'.$doc_type.'","'.$doc_desc.'")
-        ') or die($DexterC->error.'Error in add Document');
+        ') or die('Error in add Document');
         if(isset($let_us_insert)){
-            echo'Done';
+            echo'
+            <div class="alert alert-success alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                  <h5><i class="icon fas fa-check"></i> Greate</h5>
+                  Success Upload File/s And add To our system.
+                </div>
+            ';
 
         }
     }
     else {
         // If no files selected
-        echo "No files selected.";
+        echo '
+           <div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                  <h5><i class="icon fas fa-ban"></i> Alert! </h5>
+                 No files selected
+                </div>
+        ';
     }
 
 

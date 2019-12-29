@@ -36,6 +36,7 @@ if(file_exists('check.php')){include_once 'check.php';} else{die("check File is 
 
 if($database->getConnection() != null ){
    $DexterC = $database->getConnection();
+   $GLOBALS['database'] = $database->getConnection();
 }
 else{
     die("No Connaction ");
