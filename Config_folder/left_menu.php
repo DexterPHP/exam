@@ -171,6 +171,16 @@
             </ul>
             </li>
             <!-- $$$$$$$$$$$$$$$$$$$$$ -->
+
+                  <li class="nav-item has-treeview menu-open">
+
+
+              <a href="./setting.php" class="nav-link "><i class="nav-icon far fa-control"></i>  Setting </a>
+
+
+          </li>
+
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

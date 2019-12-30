@@ -1,7 +1,7 @@
 <?php
 if(isset($_GET['id'])){
     $us_id = intval($_GET['id']);
-   $search = $DexterC->query("select * from department where id =".$us_id." ") or die(' Faild');
+   $search = $DexterC->query("select * from category where id =".$us_id." ") or die(' Faild');
    if($search->num_rows > 0){
        $dep_date = $search->fetch_object();
 ?>
@@ -12,12 +12,12 @@ if(isset($_GET['id'])){
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6 text-left">
-            <h1> Delete department [ <?= htmlspecialchars($dep_date->depart_title); ?>]</h1>
+            <h1> Delete category [ <?= htmlspecialchars($dep_date->center_name); ?>]</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">department</li>
+              <li class="breadcrumb-item active">category</li>
             </ol>
           </div>
         </div>
@@ -32,7 +32,7 @@ if(isset($_GET['id'])){
         <div class="col-md-12">
           <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title text-left">This Department Has been Deleted</h3>
+              <h3 class="card-title text-left">This category Has been Deleted</h3>
 
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -44,16 +44,16 @@ if(isset($_GET['id'])){
 
 
                     // Now Insert To DataBase
-           $let_us_update = $DexterC->query('Delete from department where id   =  '.$dep_date->id.' ') or die('Error in delete Dep');
+           $let_us_update = $DexterC->query('Delete from category where id   =  '.$dep_date->id.' ') or die('Error in delete Dep');
         if(isset($let_us_update)){
             echo'
             <div class="alert alert-success alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                   <h5><i class="icon fas fa-check"></i> Cool </h5>
-                  Success Delete  department From system.
+                  Success Delete  category From system.
                 </div>
 
-                <meta http-equiv="refresh" content="2; url=./edit_department.php">
+                <meta http-equiv="refresh" content="2; url=./edit_categorie.php">
             ';
 
         }
@@ -90,7 +90,7 @@ if(isset($_GET['id'])){
                 </div>
                 </div>
                 </div>
-                <meta http-equiv="refresh" content="2; url=./edit_department.php">
+                <meta http-equiv="refresh" content="2; url=./edit_categorie.php">
     ';
 }
 }
