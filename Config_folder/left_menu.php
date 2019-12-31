@@ -35,6 +35,36 @@
             </ul>
           </li>
 
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Inbox
+                <i class="fas fa-angle-left right"></i>
+
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="./search.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Search</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="./view_doc_list.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>View Documents</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="./edit_department.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>User History</p>
+                </a>
+              </li>
+            </ul>
+            </li>
 
            <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
@@ -118,59 +148,7 @@
               </li>
             </ul>
             </li>
-            <!-- $$$$$$$$$$$$$$$$$$$$$ -->
-            <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-copy"></i>
-              <p>
-                News
-                <i class="fas fa-angle-left right"></i>
 
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="./add_news.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Add New </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./edit_news.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Edit - Delete</p>
-                </a>
-              </li>
-            </ul>
-            </li>
-
-
-            <!-- $$$$$$$$$$$$$$$$$$$$$ -->
-             <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-copy"></i>
-              <p>
-                Services
-                <i class="fas fa-angle-left right"></i>
-
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="./add_Services.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Add To Services  </p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./edit_Services.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Edit - Delete</p>
-                </a>
-              </li>
-            </ul>
-            </li>
-            <!-- $$$$$$$$$$$$$$$$$$$$$ -->
 
                   <li class="nav-item has-treeview menu-open">
 

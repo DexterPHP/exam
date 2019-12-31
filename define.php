@@ -6,9 +6,9 @@ $Confing_folder = 'Config_folder/';
 
 // MySql Denine
 define('Host','localhost',false);
-define('DB_Name','dac',false);
-define('DB_UserName','root',false);
-define('DB_Password','',false);
+define('DB_Name','dexter_exam',false);
+define('DB_UserName','dexter_exam',false);
+define('DB_Password','p3k7vYyIKZN6',false);
 
 // API
 define('API_SRC','./api/',false);
