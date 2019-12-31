@@ -93,12 +93,12 @@
                 echo "({$file_ext} file type is not allowed)<br / >";
             }
         }
-         $All_file = json_encode($All_file,true);
-
+         $All_files = json_encode($All_file,true);
+         var_dump($All_files);
         // Now Insert To DataBase
         $let_us_insert = $DexterC->query('insert into documents
         (`title`, `owner`, `commnt`, `cater_id`, `tags`, `depart`, `file_link`, `doc_type`, `desc_text`) Values
-        ("'.$doc_titl.'",'.$doc_ownr.',"'.$doc_comm.'",'.$doc_cate.',"'.$doc_tags.'",'.$doc_depa.',"'.htmlspecialchars($All_file).'","'.$doc_type.'","'.$doc_desc.'")
+        ("'.$doc_titl.'",'.$doc_ownr.',"'.$doc_comm.'",'.$doc_cate.',"'.$doc_tags.'",'.$doc_depa.',"'.htmlspecialchars($All_files).'","'.$doc_type.'","'.$doc_desc.'")
         ') or die('Error in add Document');
         if(isset($let_us_insert)){
             echo'

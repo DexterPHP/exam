@@ -56,11 +56,11 @@
                                             <th style="width: 101px;">ID</th>
                                             <th>Title</th>
                                             <th>Owner</th>
-                                            <th>Comment</th>
-                                            <th>Category</th>
+                                            <th>Type</th>
+                                            <!--<th>Category</th>
                                             <th>Department</th>
                                             <th>Type</th>
-                                            <th>Description</th>
+                                            <th>Description</th> -->
                                             <th>Control</th>
                                         </tr>
                                         </thead>
@@ -72,58 +72,79 @@
                                                 {
                                                     while ($docx  = $sea_sql->fetch_object()){
                                                     if(isset($docx->id)) {
+                                                        $owner_sql  = $DexterC->query("select * from owners where id = '".intval($docx->owner)."'") or die('[^__OO__^]');
+                                                        $cater_sql  = $DexterC->query("select * from category where id = '".intval($docx->cater_id)."'") or die('[^__OO__^]');
+                                                        $depart_sql = $DexterC->query("select * from department where id = '".intval($docx->depart)."'") or die('[^__OO__^]');
+                                                        $ownerx     = $owner_sql->fetch_object();
+                                                        $categoryx  = $cater_sql->fetch_object();
+                                                        $departx    = $depart_sql->fetch_object();
                                                         echo'
                                                             <tr role="row" class="even ">
-                                                            <td>'.$docx->id.'</td>
-                                                            <td class="sorting_1">'.$docx->title.'</td>';
-                                
-                                            $owner_sql  = $DexterC->query("select * from owners where id = '".intval($docx->owner)."'") or die('[^__OO__^]');
-                                            $cater_sql  = $DexterC->query("select * from category where id = '".intval($docx->cater_id)."'") or die('[^__OO__^]');
-                                            $depart_sql = $DexterC->query("select * from department where id = '".intval($docx->depart)."'") or die('[^__OO__^]');
-                                            $ownerx     = $owner_sql->fetch_object();
-                                            $categoryx  = $cater_sql->fetch_object();
-                                            $departx    = $depart_sql->fetch_object();
-                                                                            echo '
-                                                                                <td>'.$ownerx->owner_name.'</td>
-                                                                                <td>'.$docx->commnt.'</td>
-                                                                                <td>'.$categoryx->center_name.'</td>
-                                                                                <td>'.$departx->depart_title.'</td>
-                                                                                <td>'.$docx->doc_type.'</td>
-                                                                                <td>'.$docx->desc_text.'</td>
-                                                                                <td>
-                                                                                    <div class="btn-group-vertical">
-                                                                                        <div class="btn-group">
-                                                                                            <a href="document_edit.php?doc='.$docx->id.'"> Edit </a> - 
-                                                                                            <a href="delete_document.php?doc='.$docx->id.'" style="color: #BF0A30;"><i> Delete</i> </a>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>';
-                                                                            }
-                                                                        }
+                                                               <td>'.$docx->id.'</td>
+                                                                <td class="sorting_1">'.$docx->title.'</td>
+                                                                <td>'.$ownerx->owner_name.'</td>
+                                                                <td>'.$docx->doc_type.'</td>
+                                                                <td>
+                                                                    <div class="btn-group-vertical">
+                                                                        <div class="btn-group">
+                                                                            <a href="document_edit.php?doc='.$docx->id.'"> Edit </a> -
+                                                                            <a onclick="javascript: return confirm(\'Please confirm deletion\');" href="delete_document.php?doc='.$docx->id.'" style="color: #BF0A30;"><i> Delete</i> </a> - 
+                                                                            <a onclick="javascript: return confirm(\'Please confirm Archive action\');" href="view_doc_list.php?doc='.$docx->id.'" style="color: green;">Archive</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                            <td colspan="5">
+                                                                <table class="text-center table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                                                                    <thead>
+                                                                        <tr role="row">
+                                                                            <th>Comment</th>
+                                                                            <th>Category</th>
+                                                                            <th>Department</th>
+                                                                            <th>Description</th>
+                                                                            <th>Link</th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                    <tr>
+                                                                        <td>'.$docx->commnt.'</td>
+                                                                        <td>'.$categoryx->center_name.'</td>
+                                                                        <td>'.$departx->depart_title.'</td>
+                                                                        <td>'.$docx->desc_text.'</td>
+                                                                        <td>'.$docx->file_link.'</td>
+                                                                        
+                                                                        
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                                    
+                                                            </tr>';
+                                                        }
+                                                    }
                                                                         echo'
                                                                         </tbody>
                                 
-                                                                        <tfoot>
+                                                                       <!-- <tfoot>
                                                                         <tr role="row">
                                                                             <th style="width: 101px;">ID</th>
                                                                             <th>Title</th>
                                                                             <th>Owner</th>
-                                                                            <th>Comment</th>
-                                                                            <th>Category</th>
+                                                                            <th>Type</th>
+                                                                             <th>Category</th>
                                                                             <th>Department</th>
                                                                             <th>Type</th>
-                                                                            <th>Description</th>
+                                                                            <th>Description</th> 
                                                                             <th>Control</th>
                                                                         </tr>
-                                                                        </tfoot>
-                                                                    </table>
+                                                                        </tfoot>-->
+
                                             ';
                                 
                                         }else{
                                             echo'No data Found';
                                         }
-                                        ?>
+                                        ?>  </tbody>
+                                        </table>
                                 </div>
                             </div>
 
@@ -134,14 +155,14 @@
             </div>
             <!-- /.card -->
         </div>
-        <!-- /.col -->
-</div>
-<!-- /.row -->
 </section>
 <!-- /.content -->
-</div>
+</div>        <!-- /.col -->
 
-<?
+<!-- /.row -->
+
+
+<?php
    // Footer Set
   if(file_exists($Confing_folder.'footer_local.php')){include_once $Confing_folder.'footer_local.php';} else{die("Footer File is Miss"); }
 ?>

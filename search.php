@@ -172,7 +172,7 @@
 
 
 
-<?
+<?php
    // Footer Set
   if(file_exists($Confing_folder.'footer_local.php')){include_once $Confing_folder.'footer_local.php';} else{die("Footer File is Miss"); }
 ?>

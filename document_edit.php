@@ -51,6 +51,7 @@
                       $doc_tags = filter_var($_POST['doc_tags'] ,FILTER_SANITIZE_STRING);
                       $doc_depa = filter_var($_POST['depart']   ,FILTER_VALIDATE_INT);
                       $doc_cate = filter_var($_POST['cater']    ,FILTER_VALIDATE_INT);
+                      $doc_arch = filter_var($_POST['archive']    ,FILTER_VALIDATE_INT);
                       $doc_type = filter_var($_POST['Type']     ,FILTER_SANITIZE_STRING);
                       $doc_ownr = filter_var($_POST['owner']    ,FILTER_VALIDATE_INT);
                       $All_file = [];
@@ -119,16 +120,17 @@
                 // Now Insert To DataBase
                 
                 $let_us_update = $DexterC->query('update documents set
-                    title = "'.$doc_titl.'",
-                    owner = "'.$doc_ownr.'",
-                    commnt = "'.$doc_comm.'",
-                    cater_id = "'.$doc_cate.'",
-                    tags = "'.$doc_tags.'",
-                    depart = "'.$doc_depa.'",
-                    file_link = "'.htmlspecialchars($All_file).'",
-                    doc_type = "'.$doc_type.'",
-                    desc_text = "'.$doc_desc.'"
-                    where id   =  '.$doc_id.'
+                    title           = "'.$doc_titl.'",
+                    owner           = "'.$doc_ownr.'",
+                    commnt          = "'.$doc_comm.'",
+                    cater_id        = "'.$doc_cate.'",
+                    tags            = "'.$doc_tags.'",
+                    depart          = "'.$doc_depa.'",
+                    file_link       = "'.htmlspecialchars($All_file).'",
+                    doc_type        = "'.$doc_type.'",
+                    desc_text       = "'.$doc_desc.'",
+                    archived         = "'.$doc_arch.'"
+                    where id        =  '.$doc_id.'
                 ') or die($DexterC->error.'Error in update document');
                 
 
@@ -256,6 +258,15 @@
         
                            }
                            ?>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="inputStatus">Is Document َArchived</label>
+                        <select class="form-control custom-selec" name="archive" required="required">
+                            <option  disabled="disabled"> Please Select  </option>
+                               <option value="1" >Archived</option>
+                               <option value="0" >Active</option>
                         </select>
                     </div>
         

@@ -1,7 +1,7 @@
 <?php
-if(isset($_GET['id'])){
-    $us_id = intval($_GET['id']);
-   $search = $DexterC->query("select * from owners where id =".$us_id." ") or die(' Faild');
+if(isset($_GET['doc'])){
+    $us_id = intval($_GET['doc']);
+   $search = $DexterC->query("select * from documents where id =".$us_id." ") or die(' Faild');
    if($search->num_rows > 0){
        $user_date = $search->fetch_object();
 ?>
@@ -12,12 +12,12 @@ if(isset($_GET['id'])){
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6 text-left">
-            <h1> Delete User [ <?= htmlspecialchars($user_date->owner_name); ?>]</h1>
+            <h1> Delete Document </h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Users</li>
+              <li class="breadcrumb-item active">Documents</li>
             </ol>
           </div>
         </div>
@@ -32,7 +32,7 @@ if(isset($_GET['id'])){
         <div class="col-md-12">
           <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title text-left">User Has been Deleted</h3>
+              <h3 class="card-title text-left">Document Has been Deleted And removed From Uploaded Folder</h3>
 
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -43,8 +43,23 @@ if(isset($_GET['id'])){
                 <?php
 
 
+                $cat = ( ltrim($user_date->file_link,'['));
+                $cat = rtrim($cat,']');
+                $links = explode(',',$cat);
+                $newar =[];
+                foreach($links as $link){
+                   $ok = substr(htmlspecialchars_decode($link), 0, -1);
+                   $ok = mb_substr($link, 0, -1);
+                    echo $ok;
+
+                }
+
+
+
+
+
                     // Now Delete From DataBase
-           $let_us_update = $DexterC->query('Delete from owners where id   =  '.$user_date->id.' ') or die('Error in update user');
+           $let_us_update = $DexterC->query('Delete from documents where id='.$user_date->id.' ') or die('Error in Delete user');
         if(isset($let_us_update)){
             echo'
             <div class="alert alert-success alert-dismissible">
@@ -53,7 +68,7 @@ if(isset($_GET['id'])){
                   Success Delete  User From system.
                 </div>
 
-                <meta http-equiv="refresh" content="2; url=./user_search.php"> 
+                <meta http-equiv="refresh" content="2; url=./view_doc_list.php">
             ';
 
         }
@@ -90,7 +105,7 @@ if(isset($_GET['id'])){
                 </div>
                 </div>
                 </div>
-                <meta http-equiv="refresh" content="2; url=./user_search.php">
+                <meta http-equiv="refresh" content="2; url=./view_doc_list.php">
     ';
 }
 }
