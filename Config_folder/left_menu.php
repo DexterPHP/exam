@@ -14,8 +14,8 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview menu-open">
+               with font-awesome or any other icon font library *** menu-open *** -->
+          <li class="nav-item has-treeview"> 
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
@@ -23,11 +23,11 @@
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-
-              <li class="nav-item">
+            <ul class="nav nav-treeview" style="margin-left: 15px;">
+              <li class="nav-item ">
                 <a href="./add_document.php" class="nav-link ">
-                  <i class="far fa-circle nav-icon"></i>
+                    <i class="far fa-circle nav-icon">
+                  </i>
                   <p>Add </p>
                 </a>
               </li>
@@ -41,28 +41,66 @@
               <p>
                 Inbox
                 <i class="fas fa-angle-left right"></i>
-
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="./search.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Search</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./view_doc_list.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>View Documents</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./edit_department.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>User History</p>
-                </a>
-              </li>
+            <ul class="nav nav-treeview" style="margin-left: 15px;">
+                <li class="nav-item">
+                    <a href="./search.php" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Search</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="./history.php" class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>User History</p>
+                    </a>
+                </li>
+                
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p>
+                            View Documents
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="margin-left: 15px;">
+                        <li class="nav-item">
+                            <a href="./view_doc_list.php?view=owned" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Owned Docs</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./view_doc_list.php?view=assigned" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Assigned Docs</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./view_doc_list.php?view=depart" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Department Docs</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./view_doc_list.php?view=public" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Public Docs</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                
+                
+                <!-- <li class="nav-item">
+                    <a href="./view_doc_list.php" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>View Documents</p>
+                    </a>
+                </li> -->
+              
             </ul>
             </li>
 
@@ -75,7 +113,7 @@
 
               </p>
             </a>
-            <ul class="nav nav-treeview">
+            <ul class="nav nav-treeview" style="margin-left: 15px;">
               <li class="nav-item">
                 <a href="./add_user.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -108,7 +146,7 @@
 
               </p>
             </a>
-            <ul class="nav nav-treeview">
+            <ul class="nav nav-treeview" style="margin-left: 15px;">
               <li class="nav-item">
                 <a href="./add_department.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -133,7 +171,7 @@
 
               </p>
             </a>
-            <ul class="nav nav-treeview">
+            <ul class="nav nav-treeview" style="margin-left: 15px;">
               <li class="nav-item">
                 <a href="./add_categorie.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

@@ -30,7 +30,23 @@
               $doc_tags = filter_var($_POST['doc_tags'] ,FILTER_SANITIZE_STRING);
               $doc_depa = filter_var($_POST['depart']   ,FILTER_VALIDATE_INT);
               $doc_cate = filter_var($_POST['cater']    ,FILTER_VALIDATE_INT);
-              $doc_type = filter_var($_POST['Type']     ,FILTER_SANITIZE_STRING);
+              $type     = filter_var($_POST['Type']     ,FILTER_SANITIZE_STRING);
+              $archived = 0;
+              if($type =="public" || $type =="private")
+              { 
+                  $doc_type = $type;
+                  $doc_assigned_to = NULL; 
+              }
+              elseif($type =="Assigned to Department")
+              { 
+                  $doc_type = $type ; 
+                  $doc_assigned_to = filter_var($_POST['assigned_for_depart'] ,FILTER_SANITIZE_STRING);;
+              }
+              elseif($type =="Assigned to User")
+              { 
+                  $doc_type = $type ; 
+                  $doc_assigned_to = filter_var($_POST['assigned_for_user'] ,FILTER_SANITIZE_STRING);;
+              }
               $doc_ownr = filter_var($_POST['owner']    ,FILTER_VALIDATE_INT);
               $All_file = [];
               // upload Files
@@ -93,13 +109,29 @@
                 echo "({$file_ext} file type is not allowed)<br / >";
             }
         }
-         $All_files = json_encode($All_file,true);
-         var_dump($All_files);
+         $All_file = json_encode($All_file,true);
+
         // Now Insert To DataBase
-        $let_us_insert = $DexterC->query('insert into documents
-        (`title`, `owner`, `commnt`, `cater_id`, `tags`, `depart`, `file_link`, `doc_type`, `desc_text`) Values
-        ("'.$doc_titl.'",'.$doc_ownr.',"'.$doc_comm.'",'.$doc_cate.',"'.$doc_tags.'",'.$doc_depa.',"'.htmlspecialchars($All_files).'","'.$doc_type.'","'.$doc_desc.'")
+        $let_us_insert = $DexterC->query
+        (
+            'insert into documents
+            (`title`, `owner`, `commnt`, `cater_id`, `tags`, `depart`, `file_link`, `doc_type`,`doc_suff`, `desc_text`, `archived`, `assigned_for`)
+            Values
+            (
+                "'.$doc_titl.'",
+                '.$doc_ownr.',
+                "'.$doc_comm.'",
+                '.$doc_cate.',
+                "'.$doc_tags.'",
+                '.$doc_depa.',
+                "'.htmlspecialchars($All_file).'",
+                "'.$doc_type.'",
+                NULL,
+                "'.$doc_desc.'",
+                '.$archived.',
+                "'.$doc_assigned_to.'");
         ') or die('Error in add Document');
+        
         if(isset($let_us_insert)){
             echo'
             <div class="alert alert-success alert-dismissible">
@@ -188,7 +220,7 @@
                    }
                    ?>
                 </select>
-            </div>
+            </div> 
 
              <div class="form-group">
                 <label for="inputStatus">Category</label>
@@ -204,14 +236,72 @@
                 </select>
             </div>
 
-               <div class="form-group">
+            <div class="form-group">
                 <label for="inputStatus">Document type </label>
-                <select class="form-control custom-selec" name="Type" required="required">
+                
+                <table align="center">
+                    <tr>
+                        <td style="padding-right:120px;">
+                            <div class="radio">
+                                <input id="first" name="Type" type="radio" value="public" checked >
+                                <label for="first-1" class="radio-label" >Public</label>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <input id="second" name="Type" type="radio" value="private">
+                                <label  for="second" class="radio-label">Private</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="radio">
+                                <input id="third" name="Type" type="radio" value="Assigned to Department" >
+                                <label for="third" class="radio-label" >For Department</label>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <input id="fourth" name="Type" type="radio" value="Assigned to User">
+                                <label for="fourth" class="radio-label">For a User</label>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="card-body  text-left" id="div1" style='display:none'>
+             <div class="form-group">
+                <label for="inputStatus">The Department the document assigned for</label>
+                <select class="form-control custom-selec" name="assigned_for_depart">
                     <option   disabled="disabled"> Please Select  </option>
-                    <option value="private" >Private</option>
-                    <option value="public" >Public</option>
+                   <?php
+                       $Depart = $DexterC->query("select * from department order by depart_title asc") or die();
+                       while($dapart_data = $Depart->fetch_object())
+                       {
+                           echo'<option value="depart_'.$dapart_data->id.'" >'.htmlspecialchars($dapart_data->depart_title).'</option>';
+                       }
+                   ?>
                 </select>
             </div>
+            </div>
+            <div class="card-body  text-left" id="div2" style='display:none'>
+             <div class="form-group">
+                <label for="inputStatus">The User the document assigned for</label>
+                <select class="form-control custom-selec" name="assigned_for_user">
+                    <option   disabled="disabled"> Please Select  </option>
+                   <?php
+                       $users = $DexterC->query("select * from owners order by owner_name asc") or die();
+                       while($users_data = $users->fetch_object())
+                       {
+                           echo'<option value="user_'.$users_data->id.'" >'.htmlspecialchars($users_data->owner_name).'</option>';
+                       }
+                   ?>
+                </select>
+            </div>
+            </div>
+            
 
              <div class="form-group">
                 <label for="inputStatus">Owner</label>
@@ -245,3 +335,31 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+  
+  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>  
+<script>
+/***********************************************************/
+$(document).ready(function () 
+ { 
+    $('input[type="radio"]').click(function() {
+       if($(this).attr('id') == 'third') 
+       {
+            $('#div1').show();           
+       }
+
+       else {
+            $('#div1').hide();   
+       }
+       if($(this).attr('id') == 'fourth') 
+       {
+            $('#div2').show();           
+       }
+
+       else {
+            $('#div2').hide();   
+       }
+   });
+});
+
+</script>

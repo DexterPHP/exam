@@ -10,20 +10,57 @@
   if(file_exists($Confing_folder.'navbar.php')){include_once $Confing_folder.'navbar.php';} else{die("Navbar File is Miss"); }
    // Menu Set
   if(file_exists($Confing_folder.'left_menu.php')){include_once $Confing_folder.'left_menu.php';} else{die("left menu File is Miss" ); }
-  ?>
 
+/*****************************************************
+*          retrieving the documents needed 
+* ***************************************************/
+if (isset($_GET['view']))
+{
+    if($_GET['view'] == 'owned')
+    {
+        $user = base64_decode($_SESSION['userToken']);
+        //echo var_dump ($user);
+        $owner = $DexterC->query('select * from admin_acccount where u_name_s ="'.$user.'" limit 1') or die('Someting went wrong');
+        $num = $owner->num_rows;
+        if($num > 0 )
+        {
+            $data_user = $owner->fetch_object();
+            $user_id = intval($data_user->numb);
+            //echo var_dump($user_id);
+            $sea_sql = $DexterC->query('select * from documents where owner ="'.$user_id.'" order by id desc') or die('[^__OO__^]');
+            $table_title = "Owned";
+        }
+    }
+    elseif($_GET['view'] == 'assigned')
+    {
+        $sea_sql = $DexterC->query("select * from documents order by id desc") or die('[^__OO__^]');
+    }
+    elseif($_GET['view'] == 'depart')
+    {
+        $sea_sql = $DexterC->query("select * from documents order by id desc") or die('[^__OO__^]');
+    }
+    elseif($_GET['view'] == 'public')
+    {
+        $sea_sql = $DexterC->query("select * from documents order by id desc") or die('[^__OO__^]');
+    }
+}
+else 
+{
+
+}
+                                        ?>
 <div class="content-wrapper" style="min-height: 1015.13px;">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>List of Documents</h1>
+                    <h1>List of <?php echo strtolower($table_title) ?> Documents</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Documents</li>
+                        <li class="breadcrumb-item active"><?php echo $table_title ?> Documents</li>
                     </ol>
                 </div>
             </div>
@@ -38,7 +75,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">All Documents</h3>
+                        <h3 class="card-title"><?php echo $table_title ?> Documents</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -65,9 +102,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <?php
-
-                                        $sea_sql = $DexterC->query("select * from documents order by id desc") or die('[^__OO__^]');
+                                            <?php
                                                 if($sea_sql->num_rows > 0)
                                                 {
                                                     while ($docx  = $sea_sql->fetch_object()){
@@ -87,9 +122,9 @@
                                                                 <td>
                                                                     <div class="btn-group-vertical">
                                                                         <div class="btn-group">
-                                                                            <a href="document_edit.php?doc='.$docx->id.'"> Edit </a> -
-                                                                            <a onclick="javascript: return confirm(\'Please confirm deletion\');" href="delete_document.php?doc='.$docx->id.'" style="color: #BF0A30;"><i> Delete</i> </a> - 
-                                                                            <a onclick="javascript: return confirm(\'Please confirm Archive action\');" href="view_doc_list.php?doc='.$docx->id.'" style="color: green;">Archive</a>
+                                                                            <a href="document_edit.php?doc='.$docx->id.'"> <i class="fa fa-edit"></i></a>
+                                                                            <a onclick="javascript: return confirm(\'Please confirm deletion\');" href="delete_document.php?doc='.$docx->id.'" style="color: #BF0A30;"><i class="fa fa-trash" aria-hidden="true" style="margin-left:5px;margin-right:5px;"></i> </a>  
+                                                                            <a onclick="javascript: return confirm(\'Please confirm Archive action\');" href="view_doc_list.php?doc='.$docx->id.'" style="color: green;"><i class="fa fa-archive" aria-hidden="true"></i></a>
                                                                         </div>
                                                                     </div>
                                                                 </td>

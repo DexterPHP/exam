@@ -51,9 +51,10 @@
                       $doc_tags = filter_var($_POST['doc_tags'] ,FILTER_SANITIZE_STRING);
                       $doc_depa = filter_var($_POST['depart']   ,FILTER_VALIDATE_INT);
                       $doc_cate = filter_var($_POST['cater']    ,FILTER_VALIDATE_INT);
-                      $doc_arch = filter_var($_POST['archive']    ,FILTER_VALIDATE_INT);
+                      $doc_arch = filter_var($_POST['archive']  ,FILTER_VALIDATE_INT);
                       $doc_type = filter_var($_POST['Type']     ,FILTER_SANITIZE_STRING);
                       $doc_ownr = filter_var($_POST['owner']    ,FILTER_VALIDATE_INT);
+                      //$doc_files= filter_var($_POST['doc_title'],FILTER_SANITIZE_STRING);
                       $All_file = [];
                       // upload Files
         
@@ -91,7 +92,7 @@
                             $filepath = $upload_dir.time().$file_name;
         
                             if( move_uploaded_file($file_tmpname, $filepath)) {
-                                echo "{$file_name} successfully uploaded <br />";
+                                //echo "{$file_name} successfully uploaded <br />";
                                 array_push($All_file,$filepath);
                             }
                             else {
@@ -129,7 +130,7 @@
                     file_link       = "'.htmlspecialchars($All_file).'",
                     doc_type        = "'.$doc_type.'",
                     desc_text       = "'.$doc_desc.'",
-                    archived         = "'.$doc_arch.'"
+                    archived        = "'.$doc_arch.'"
                     where id        =  '.$doc_id.'
                 ') or die($DexterC->error.'Error in update document');
                 
