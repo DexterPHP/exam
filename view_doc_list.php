@@ -11,7 +11,7 @@
    // Menu Set
   if(file_exists($Confing_folder.'left_menu.php')){include_once $Confing_folder.'left_menu.php';} else{die("left menu File is Miss" ); }
 
-/*****************************************************
+/****************************************************
 *          retrieving the documents needed 
 * ***************************************************/
 if (isset($_GET['view']))
@@ -27,13 +27,14 @@ if (isset($_GET['view']))
             $data_user = $owner->fetch_object();
             $user_id = intval($data_user->numb);
             //echo var_dump($user_id);
-            $sea_sql = $DexterC->query('select * from documents where owner ="'.$user_id.'" order by id desc') or die('[^__OO__^]');
+            $sea_sql = $DexterC->query('select * from documents where owner ="'.$user_id.'" AND doc_type ="Private" order by id desc') or die('[^__OO__^]');
             $table_title = "Owned";
         }
     }
     elseif($_GET['view'] == 'assigned')
     {
         $sea_sql = $DexterC->query("select * from documents order by id desc") or die('[^__OO__^]');
+        $table_title = "Assigned";
     }
     elseif($_GET['view'] == 'depart')
     {
@@ -41,14 +42,14 @@ if (isset($_GET['view']))
     }
     elseif($_GET['view'] == 'public')
     {
-        $sea_sql = $DexterC->query("select * from documents order by id desc") or die('[^__OO__^]');
+        $sea_sql = $DexterC->query("select * from documents where doc_type ='Public' order by id desc") or die('[^__OO__^]');
     }
 }
 else 
 {
 
 }
-                                        ?>
+?>
 <div class="content-wrapper" style="min-height: 1015.13px;">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -78,6 +79,54 @@ else
                         <h3 class="card-title"><?php echo $table_title ?> Documents</h3>
                     </div>
                     <!-- /.card-header -->
+                    <?php  
+                    if (isset($_GET['view'])&& $_GET['view'] == 'assigned')
+                    { ?>
+                        <table align="center" style="margin-top:25px;">
+                            <tr>
+                                <td style="padding-right:120px;">
+                                    <div class="radio">
+                                        <input id="first" name="Type" type="radio" value="department" checked >
+                                        <label for="first-1" class="radio-label" >Department</label>
+                                    </div>
+                                </td>
+                                <td style="padding-right:120px;">
+                                    <select class="form-control custom-selec" id="select_depart" name="depart" required="required" disabled>
+                                        <option   disabled="disabled"> Please Select  </option>
+                                        <?php
+                                        $Depart = $DexterC->query("select * from department order by depart_title asc") or die();
+                                        while($dapart_data = $Depart->fetch_object())
+                                        {
+                                            echo"<option value=".$dapart_data->id." >".htmlspecialchars($dapart_data->depart_title)."</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </td>
+                                <td style="padding-right:120px;">
+                                    <div class="radio">
+                                        <input id="third" name="Type" type="radio" value="user" >
+                                        <label for="third" class="radio-label" >User</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <select class="form-control custom-selec" id="select_user" name="user" required="required" disabled>
+                                        <option   disabled="disabled"> Please Select  </option>
+                                            <?php
+                                            $users = $DexterC->query("select * from owners order by owner_name asc") or die();
+                                            while($users_data = $users->fetch_object())
+                                            {
+                                                echo"<option value=".$users_data->id." >".$users_data->owner_name."</option>";
+                                            }
+                                            ?>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                        
+                    <?php
+                    }
+                    
+                    ?>
                     <div class="card-body">
                         <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                             <div class="row">
@@ -201,3 +250,24 @@ else
    // Footer Set
   if(file_exists($Confing_folder.'footer_local.php')){include_once $Confing_folder.'footer_local.php';} else{die("Footer File is Miss"); }
 ?>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>  
+<script>
+/***********************************************************/
+$(document).ready(function () 
+ { 
+    $('input[type="radio"]').click(function() {
+       if($(this).attr('id') == 'first') 
+       {
+            $('#select_depart').prop('disabled', false);   
+            $('#select_user').prop('disabled', true);
+       }
+
+       else {
+            $('#select_depart').prop('disabled', true);   
+            $('#select_user').prop('disabled', false);
+       }
+   });
+});
+
+</script>

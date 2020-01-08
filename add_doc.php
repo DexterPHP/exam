@@ -32,7 +32,7 @@
               $doc_cate = filter_var($_POST['cater']    ,FILTER_VALIDATE_INT);
               $type     = filter_var($_POST['Type']     ,FILTER_SANITIZE_STRING);
               $archived = 0;
-              if($type =="public" || $type =="private")
+              if($type =="Public" || $type =="Private")
               { 
                   $doc_type = $type;
                   $doc_assigned_to = NULL; 
@@ -243,13 +243,13 @@
                     <tr>
                         <td style="padding-right:120px;">
                             <div class="radio">
-                                <input id="first" name="Type" type="radio" value="public" checked >
+                                <input id="first" name="Type" type="radio" value="Public" checked >
                                 <label for="first-1" class="radio-label" >Public</label>
                             </div>
                         </td>
                         <td>
                             <div>
-                                <input id="second" name="Type" type="radio" value="private">
+                                <input id="second" name="Type" type="radio" value="Private">
                                 <label  for="second" class="radio-label">Private</label>
                             </div>
                         </td>
@@ -345,7 +345,7 @@ $(document).ready(function ()
     $('input[type="radio"]').click(function() {
        if($(this).attr('id') == 'third') 
        {
-            $('#div1').show();           
+            $('#div1').show('slow');           
        }
 
        else {
@@ -353,7 +353,7 @@ $(document).ready(function ()
        }
        if($(this).attr('id') == 'fourth') 
        {
-            $('#div2').show();           
+            $('#div2').show('slow');           
        }
 
        else {

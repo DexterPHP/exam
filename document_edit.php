@@ -43,9 +43,10 @@
             if($total > 0 )
             {
                 $data_doc = $docx_sql->fetch_object();
+                $All_file = $data_doc->file_link;
                 $rand = rand(0,999999);
                   if(isset($_POST['Token']) && $_POST['Token'] = $rand){
-                      $doc_titl = filter_var($_POST['doc_title'],FILTER_SANITIZE_STRING);
+                      /*$doc_titl = filter_var($_POST['doc_title'],FILTER_SANITIZE_STRING);
                       $doc_desc = filter_var($_POST['doc_desc'] ,FILTER_SANITIZE_STRING);
                       $doc_comm = filter_var($_POST['doc_comm'] ,FILTER_SANITIZE_STRING);
                       $doc_tags = filter_var($_POST['doc_tags'] ,FILTER_SANITIZE_STRING);
@@ -53,9 +54,40 @@
                       $doc_cate = filter_var($_POST['cater']    ,FILTER_VALIDATE_INT);
                       $doc_arch = filter_var($_POST['archive']  ,FILTER_VALIDATE_INT);
                       $doc_type = filter_var($_POST['Type']     ,FILTER_SANITIZE_STRING);
-                      $doc_ownr = filter_var($_POST['owner']    ,FILTER_VALIDATE_INT);
+                      $doc_ownr = filter_var($_POST['owner']    ,FILTER_VALIDATE_INT);*/
                       //$doc_files= filter_var($_POST['doc_title'],FILTER_SANITIZE_STRING);
-                      $All_file = [];
+                      /************************************************************
+                       * 
+                       ************************************************************/
+                      $doc_titl = filter_var($_POST['doc_title'],FILTER_SANITIZE_STRING);
+                      $doc_desc = filter_var($_POST['doc_desc'] ,FILTER_SANITIZE_STRING);
+                      $doc_comm = filter_var($_POST['doc_comm'] ,FILTER_SANITIZE_STRING);
+                      $doc_tags = filter_var($_POST['doc_tags'] ,FILTER_SANITIZE_STRING);
+                      $doc_depa = filter_var($_POST['depart']   ,FILTER_VALIDATE_INT);
+                      $doc_cate = filter_var($_POST['cater']    ,FILTER_VALIDATE_INT);
+                      $type     = filter_var($_POST['Type']     ,FILTER_SANITIZE_STRING);
+                      $doc_arch = filter_var($_POST['archive']   ,FILTER_VALIDATE_INT);
+                      if($type =="Public" || $type =="Private")
+                      { 
+                          $doc_type = $type;
+                          $doc_assigned_to = NULL; 
+                      }
+                      elseif($type =="Assigned to Department")
+                      { 
+                          $doc_type = $type ; 
+                          $doc_assigned_to = filter_var($_POST['assigned_for_depart'] ,FILTER_SANITIZE_STRING);;
+                      }
+                      elseif($type =="Assigned to User")
+                      { 
+                          $doc_type = $type ; 
+                          $doc_assigned_to = filter_var($_POST['assigned_for_user'] ,FILTER_SANITIZE_STRING);;
+                      }
+                      $doc_ownr = filter_var($_POST['owner']    ,FILTER_VALIDATE_INT);
+                      
+                      
+                      
+                      
+                      
                       // upload Files
         
             // Configure upload directory and allowed file types
@@ -67,7 +99,7 @@
         
             // Checks if user sent an empty form
             if(!empty(array_filter($_FILES['Doc']['name']))) {
-        
+                $All_file = [];
                 // Loop through each file in files[] array
                 foreach ($_FILES['Doc']['tmp_name'] as $key => $value) {
         
@@ -120,7 +152,10 @@
         
                 // Now Insert To DataBase
                 
-                $let_us_update = $DexterC->query('update documents set
+               
+            }
+            
+             $let_us_update = $DexterC->query('update documents set
                     title           = "'.$doc_titl.'",
                     owner           = "'.$doc_ownr.'",
                     commnt          = "'.$doc_comm.'",
@@ -130,12 +165,14 @@
                     file_link       = "'.htmlspecialchars($All_file).'",
                     doc_type        = "'.$doc_type.'",
                     desc_text       = "'.$doc_desc.'",
-                    archived        = "'.$doc_arch.'"
+                    archived        = "'.$doc_arch.'",
+                    assigned_for    = "'.$doc_assigned_to.'"
                     where id        =  '.$doc_id.'
                 ') or die($DexterC->error.'Error in update document');
                 
 
-                if(isset($let_us_update)){
+                if(isset($let_us_update))
+                {
                     echo'
                     <div class="alert alert-success alert-dismissible">
                           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -145,17 +182,6 @@
                     ';
         
                 }
-            }
-            else {
-                // If no files selected
-                echo '
-                   <div class="alert alert-danger alert-dismissible">
-                          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                          <h5><i class="icon fas fa-ban"></i> Alert! </h5>
-                         No files selected
-                        </div>
-                ';
-            }
         
         
                   }
@@ -187,10 +213,10 @@
                         <label for="inputClientCompany">Tags</label>
                         <input required="required" type="text" name="doc_tags" id="inputClientCompany" class="form-control" min="3" value="<? echo $data_doc->tags ?>">
                       </div>
-        
+                    <!-- File upload is not required on update if no new docs uploaded the old documents should be saved      -->
                       <div class="form-group">
-                        <label for="inputClientCompany">Upload Document</label>
-                        <input required="required" type="file" multiple="" name="Doc[]" accept="file_extension|<?php foreach($okkk as $type_is){ echo $type_is.','; }?>
+                        <label for="inputClientCompany">Upload and Replace old Document</label>
+                        <input type="file" multiple="" name="Doc[]" accept="file_extension|<?php foreach($okkk as $type_is){ echo $type_is.','; }?>
                         " multiple="multiple" id="inputClientCompany" class="form-control">
                       </div>
         
@@ -217,7 +243,7 @@
                            <?php
                            $Depart = $DexterC->query("select * from department order by depart_title asc") or die();
                            while($dapart_data = $Depart->fetch_object()){
-                               echo'<option value="'.$dapart_data->id.'" >'.htmlspecialchars($dapart_data->depart_title).'</option>';
+                               echo'<option value="'.$dapart_data->id.'"'; if(intval($data_doc->depart) == intval($dapart_data->id)){echo ' selected';} echo'  >'.htmlspecialchars($dapart_data->depart_title).'</option>';
         
                            }
                            ?>
@@ -231,13 +257,14 @@
                            <?php
                            $Cater = $DexterC->query("select * from category order by center_name asc") or die();
                            while($ccater_data = $Cater->fetch_object()){
-                               echo'<option value="'.$ccater_data->id.'" >'.htmlspecialchars($ccater_data->center_name).'</option>';
+                               echo'<option value="'.$ccater_data->id.'"'; if(intval($data_doc->cater_id) == intval($ccater_data->id)){echo ' selected';} echo' >'.htmlspecialchars($ccater_data->center_name).'</option>';
         
                            }
                            ?>
                         </select>
                     </div>
-        
+                        
+                    <!-- ********************************************************
                        <div class="form-group">
                         <label for="inputStatus">Document type </label>
                         <select class="form-control custom-selec" name="Type" required="required">
@@ -246,7 +273,83 @@
                             <option value="public" >Public</option>
                         </select>
                     </div>
-        
+                    ************************************************************* -->
+                    
+                    <div class="form-group">
+                        <label for="inputStatus">Document type </label>
+                        
+                        <table align="center">
+                            <tr>
+                                <td style="padding-right:120px;">
+                                    <div class="radio">
+                                        <input id="first" name="Type" type="radio" value="Public" <?php if($data_doc->doc_type =="Public"){echo 'checked';}?>>
+                                        <label for="first-1" class="radio-label" >Public</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <input id="second" name="Type" type="radio" value="Private" <?php if($data_doc->doc_type =="Private"){echo 'checked';}?>>
+                                        <label  for="second" class="radio-label">Private</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="radio">
+                                        <input id="third" name="Type" type="radio" value="Assigned to Department" <?php if($data_doc->doc_type =="Assigned to Department"){echo 'checked';}?>>
+                                        <label for="third" class="radio-label" >For Department</label>
+                                        <?php if($data_doc->doc_type =="Assigned to Department"){echo '<input type="hidden" id="assigned" name="assigned" value="div1">';}?>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <input id="fourth" name="Type" type="radio" value="Assigned to User" <?php if($data_doc->doc_type =="Assigned to User"){echo 'checked';}?>>
+                                        <label for="fourth" class="radio-label">For a User</label>
+                                        <?php if($data_doc->doc_type =="Assigned to User"){echo '<input type="hidden" id="assigned" name="assigned" value="div2">';}?>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="card-body  text-left" id="div1" style='display:none'>
+                        <div class="form-group">
+                            <label for="inputStatus">The Department the document assigned for</label>
+                            <select class="form-control custom-selec" name="assigned_for_depart">
+                                <option   disabled="disabled"> Please Select  </option>
+                               <?php
+                                   if(intval($data_doc->doc_type) == "Assigned to Department")
+                                   {
+                                       $depart_id = intval(substr($data_doc->assigned_for,7));
+                                   }
+                                   $Depart = $DexterC->query("select * from department order by depart_title asc") or die();
+                                   while($dapart_data = $Depart->fetch_object())
+                                   {
+                                       echo'<option value="depart_'.$dapart_data->id.'"';if(intval($dapart_data->id) == $depart_id){echo ' selected';} echo' >'.htmlspecialchars($dapart_data->depart_title).'</option>';
+                                       //echo '<option> '.$depart_id.'</option>';  
+                                   }
+                               ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body  text-left" id="div2" style='display:none'>
+                         <div class="form-group">
+                            <label for="inputStatus">The User the document assigned for</label>
+                            <select class="form-control custom-selec" name="assigned_for_user">
+                                <option   disabled="disabled"> Please Select  </option>
+                               <?php
+                                   if(intval($data_doc->doc_type) == "Assigned to User")
+                                   {
+                                       $user_id = intval(substr($data_doc->assigned_for,5));
+                                   }
+                                   $users = $DexterC->query("select * from owners order by owner_name asc") or die();
+                                   while($users_data = $users->fetch_object())
+                                   {
+                                       echo'<option value="user_'.$users_data->id.'"';if(intval($users_data->id) == $user_id){echo ' selected';} echo' >'.htmlspecialchars($users_data->owner_name).'</option>';
+                                   }
+                               ?>
+                            </select>
+                        </div>
+                    </div>
                      <div class="form-group">
                         <label for="inputStatus">Owner</label>
                         <select class="form-control custom-selec" name="owner" required="required">
@@ -256,18 +359,17 @@
                            $oWner = $DexterC->query("select * from owners order by owner_name asc") or die();
                            while($owner_data = $oWner->fetch_object()){
                                echo'<option value="'.$owner_data->id.'" >'.htmlspecialchars($owner_data->owner_name).'</option>';
-        
                            }
                            ?>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label for="inputStatus">Is Document َArchived</label>
+                        <label for="inputStatus">Is Document Archived</label>
                         <select class="form-control custom-selec" name="archive" required="required">
                             <option  disabled="disabled"> Please Select  </option>
-                               <option value="1" >Archived</option>
-                               <option value="0" >Active</option>
+                               <option value="1" <?php if(intval($data_doc->archived) == 1){echo 'selected'; }?> >Archived</option>
+                               <option value="0" <?php if(intval($data_doc->archived) == 0){echo 'selected'; }?>>Active</option>
                         </select>
                     </div>
         
@@ -296,3 +398,45 @@
    // Footer Set
   if(file_exists($Confing_folder.'footer_local.php')){include_once $Confing_folder.'footer_local.php';} else{die("Footer File is Miss"); }
 ?>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>  
+<script>
+/***********************************************************/
+$(document).ready(function () 
+ { 
+     
+     $('input[type="hidden"]').val(function() {
+       if($(this).attr("value") == 'div1') 
+       {
+            $('#div1').show('slow');           
+       }
+
+       else if($(this).attr("value") == 'div2') {
+            $('#div2').show('slow');   
+       }
+   });
+   
+    $('input[type="radio"]').click(function() {
+       if($(this).attr('id') == 'third') 
+       {
+            $('#div1').show('slow');           
+       }
+
+       else {
+            $('#div1').hide();   
+       }
+       if($(this).attr('id') == 'fourth') 
+       {
+            $('#div2').show('slow');           
+       }
+
+       else {
+            $('#div2').hide();   
+       }
+   });
+});
+
+</script>
